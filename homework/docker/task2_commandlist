@@ -1,0 +1,27 @@
+1. Add service mysql into fail docker-compose.yml
+2. sudo chmod -R 0777 docker/data
+3. Copy dump-file shop_task2.sql in docker/data
+4. sudo docker-compose up --build
+5. sudo docker-compose exec mysql bash
+6. mysql -u root -p
+7. SHOW DATABASES;
+8. CREATE DATABASE shop_docker;
+9. quit;
+10. mysql -u root -p shop_docker < /var/lib/mysql/shop_task2.sql
+11. mysql -u root -p
+12. SHOW DATABASES;
+13. USE shop_docker;
+14. SHOW TABLES;
++-----------------------+
+| Tables_in_shop_docker |
++-----------------------+
+| categories            |
+| categories_products   |
+| product_images        |
+| products              |
+| users                 |
++-----------------------+
+5 rows in set (0.00 sec)
+15. quit;
+16. exit
+17. sudo docker-compose stop
