@@ -10,3 +10,8 @@ def todos_list():
 @app.route('/add-todo')
 def add_todo():
     return render_template('add-todo.html')
+
+
+@app.route('/todo-editor')
+def editor_todo():
+    return render_template('todo_editor.html')
