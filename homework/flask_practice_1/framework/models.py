@@ -40,7 +40,6 @@ class Model(ABC):
                 break
         cls.save_to_file(items)
 
-
     @classmethod
     def get_all(cls):
         data = cls.get_file_data(cls.file)

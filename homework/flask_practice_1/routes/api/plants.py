@@ -33,18 +33,30 @@ class PlantSingleResource(Resource):
         return "", 204
 
 
-class PlantDirectorResource(Resource):
-    def get(self, id):
-        try:
-            plant = Plant.get_by_id(id)
-            director = Plant.director(plant['director_id'])
-            if director is None:
-                return "Director Not Found", 404
-            return director
-        except Exception:
-            return "Not Found", 404
+@app.route('/api/v1/plants/<int:id>director')
+def get_director(id):
+    try:
+        plant = Plant.get_by_id(id)
+        director = Plant.director(plant['director_id'])
+        if director is None:
+            return "Director Not Found", 404
+        return director
+    except Exception:
+        return "Not Found", 404
 
 
-api.add_resource(PlantDirectorResource, '/api/v1/plants/<int:id>/director')
+# class PlantDirectorResource(Resource):
+#     def get(self, id):
+#         try:
+#             plant = Plant.get_by_id(id)
+#             director = Plant.director(plant['director_id'])
+#             if director is None:
+#                 return "Director Not Found", 404
+#             return director
+#         except Exception:
+#             return "Not Found", 404
+
+
+# api.add_resource(PlantDirectorResource, '/api/v1/plants/<int:id>/director')
 api.add_resource(PlantResource, "/api/v1/plants")
 api.add_resource(PlantSingleResource, "/api/v1/plants/<int:id>")
