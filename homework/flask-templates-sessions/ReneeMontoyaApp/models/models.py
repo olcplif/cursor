@@ -34,7 +34,8 @@ class Plant(db.Model):
             'id': self.id,
             'location': self.location,
             'name': self.name,
-            'director_id': self.director_id
+            'director_id': self.director_id,
+            'director': self.director.serialize  # Fixed  display director name
         }
 
 

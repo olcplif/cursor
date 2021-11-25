@@ -14,8 +14,7 @@ $(document).ready(function () {
             }
 
             for (let plant of response) {
-                // let el = " <li class='list-group-item'>" + plant.director.name + "</li>";
-                let el = " <li class='list-group-item'>" + plant.director_id + "</li>";  // Хочу вивести замість ІД директора його Ім'я, але чомусь метод director не спрацьовує тут
+                let el = " <li class='list-group-item'>" + plant.director.name + "</li>";  // Fixed  display director name
                 $('#plants-director-id').append(el);
             }
         }
