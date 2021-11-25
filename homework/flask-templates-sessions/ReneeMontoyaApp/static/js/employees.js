@@ -17,6 +17,11 @@ $(document).ready(function () {
                 let el = " <li class='list-group-item'>" + employee.department_type + "</li>";
                 $('#employees-department-type').append(el);
             }
+
+            for (let employee of response) {
+                let el = " <li class='list-group-item'>" + employee.department + "</li>";
+                $('#employees-department').append(el);
+            }
         }
     })
 });

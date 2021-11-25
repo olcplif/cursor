@@ -84,7 +84,9 @@ class Employee(db.Model):
             'name': self.name,
             'email': self.email,
             'department_type': self.department_type,
-            'department_id': self.department_id
+            'department_id': self.department_id,
+            'department': self.department.name
+
         }
 
 
@@ -123,7 +125,8 @@ class Salon(db.Model):
             'name': self.name,
             'city': self.city,
             'address': self.address,
-            'director_id': self.director_id
+            'director_id': self.director_id,
+            'director': self.director.serialize
         }
 
 

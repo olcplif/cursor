@@ -17,6 +17,10 @@ $(document).ready(function () {
                 let el = " <li class='list-group-item'>" + salon.address + "</li>";
                 $('#salons-address').append(el);
             }
+            for (let salon of response) {
+                let el = " <li class='list-group-item'>" + salon.director.name + "</li>";
+                $('#salons-director').append(el);
+            }
         }
     })
 });
