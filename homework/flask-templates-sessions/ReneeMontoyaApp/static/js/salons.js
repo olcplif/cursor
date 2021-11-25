@@ -4,7 +4,7 @@ $(document).ready(function () {
         method: 'GET',
         success: function (response) {
             for (let salon of response) {
-                let el = " <li class='list-group-item'>" + salon.name + "</li>";
+                let el = "<li class='list-group-item'>" + "<a href='/salon/" + salon.id + "'>" + salon.name + "</a>" + "</li>";
                 $('#salons-name').append(el);
             }
 
@@ -18,7 +18,7 @@ $(document).ready(function () {
                 $('#salons-address').append(el);
             }
             for (let salon of response) {
-                let el = " <li class='list-group-item'>" + salon.director.name + "</li>";
+                let el = "<li class='list-group-item'>" + "<a href='/employee/" + salon.director.id + "'>" + salon.director.name + "</a>" + "</li>";
                 $('#salons-director').append(el);
             }
         }

@@ -4,7 +4,7 @@ $(document).ready(function () {
         method: 'GET',
         success: function (response) {
             for (let employee of response) {
-                let el = " <li class='list-group-item'>" + employee.name + "</li>";
+                let el = "<li class='list-group-item'>" + "<a href='/employee/" + employee.id + "'>" + employee.name + "</a>" + "</li>";
                 $('#employees-name').append(el);
             }
 
@@ -19,8 +19,15 @@ $(document).ready(function () {
             }
 
             for (let employee of response) {
-                let el = " <li class='list-group-item'>" + employee.department + "</li>";
-                $('#employees-department').append(el);
+                if (employee.department_type === "plant"){
+                    let el = "<li class='list-group-item'>" + "<a href='/plant/" + employee.department_id + "'>" + employee.department + "</a>" + "</li>";
+                    $('#employees-department').append(el);
+                }
+                else {
+                    let el = "<li class='list-group-item'>" + "<a href='/salon/" + employee.department_id + "'>" + employee.department + "</a>" + "</li>";
+                    $('#employees-department').append(el);
+                }
+                // let el = " <li class='list-group-item'>" + employee.department + "</li>";
             }
         }
     })
