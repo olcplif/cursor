@@ -1,0 +1,46 @@
+{% include 'includes/head.html' %}
+{% include 'includes/header.html' %}
+
+
+<section class="employee-page col-sm-12 text-center">
+    <h1 class="text-center">Edit Employee #{{ employee.id }}</h1>
+    <div class="text-center col-sm-4 offset-sm-4">
+        <form action="{{ url_for('employee_update', id=employee.id) }}" method="POST">
+            <div class="form-group">
+                <label for="name">Name: </label>
+                <input class="form-control" name="name" id="name" value="{{ employee.name }}">
+            </div>
+            <div class="form-group">
+                <label for="email">Email: </label>
+                <input class="form-control" name="email" id="email" value="{{ employee.email }}">
+            </div>
+            <div class="form-group">
+                <label for="department_type">Department type (<i><b>plant</b></i> or <i><b>salon</b></i>): </label>
+                <input class="form-control" name="department_type" id="department_type" value="{{ employee.department_type }}">
+            </div>
+            <br>
+            <div class="form-group">
+                <select class="form-select" name="department_id" aria-label="Department">
+                {% if employee.department_type == 'plant' %}
+                    {% for plant in plants %}
+                        <option value="{{ plant.id }}" {% if plant.id == employee.department %}} selected {% endif %}> {{ plant.name }}</option>
+                    {% endfor %}
+                {% elif employee.department_type == 'salon' %}
+                    {% for salon in salons %}
+                        <option value="{{ salon.id }}" {% if salon.id == employee.department %}} selected {% endif %}> {{ salon.name }}</option>
+                    {% endfor %}
+                {% endif %}
+
+                </select>
+            </div>
+            <br>
+            <div class="btn-group">
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </form>
+    </div>
+
+</section>
+
+
+{% include 'includes/footer.html' %}
