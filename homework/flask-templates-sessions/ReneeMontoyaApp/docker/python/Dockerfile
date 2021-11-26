@@ -7,4 +7,4 @@ COPY ./wait-for-it.sh /application/wait-for-it.sh
 RUN chmod -R 0777 *
 RUN pip install -r requirements.txt
 
-CMD ./wait-for-it.sh db:3306 -- python3 app.py
+CMD gunicorn --bind 0.0.0.0:8080 app:app
