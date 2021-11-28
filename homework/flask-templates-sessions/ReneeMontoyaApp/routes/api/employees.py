@@ -15,6 +15,7 @@ class EmployeeResource(Resource):
         employee = Employee(
             name=request_data['name'],
             email=request_data['email'],
+            password=request_data['password'],
             department_type=request_data['department_type'],
             department_id=int(request_data['department_id']),
         )
