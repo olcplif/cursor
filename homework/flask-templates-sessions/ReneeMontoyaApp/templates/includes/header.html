@@ -12,13 +12,15 @@
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0" id="menuList"></ul>
 
 
-                    {#                    <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">#}
+                    {# <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">#}
                     <ul class="navbar-nav">
                         {% if session.get('user', False) %}
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink"
+                                <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDarkDropdownMenuLink"
                                    role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <div class="text-white">Hello, {{ session.get('user')['name'] }}</div>
+                                    Hello, {% if session.get('user')['name'] %}
+                                    {{ session.get('user')['name'] }} {% else %}
+                                    {{ session.get('user')['email'] }} {% endif %}
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-dark"
                                     aria-labelledby="navbarDarkDropdownMenuLink">
@@ -28,18 +30,22 @@
                                     <li class="divider"></li>
                                     <li><a class="dropdown-item" href="/logout">Logout</a></li>
                                 </ul>
-
                                 {% else %}
                             <li class="nav-item dropdown">
                                 {#  <div class="login text-white"><a href="{{ url_for('login') }}">Login</a></div>#}
-                                <button type="button" class="btn btn-primary"><div class=""><a class="text-login" href="{{ url_for('login') }}">Log In</a></div></button>
+                                <div class=""><a class="text-login" href="{{ url_for('login') }}">
+                                    <button type="button" class="btn btn-primary">Log In</button>
+                                </a></div>
                             </li>
                         {% endif %}
                     </ul>
                 </div>
 
-                <form class="d-flex">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <form class="d-flex search-form">
+                    <input class="form-control me-2" id="searchInput" name="q" type="search" placeholder="Search" aria-label="Search">
+                    <ul id="searchResults" class="search-results">
+
+                    </ul>
                     <button class="btn btn-outline-success" type="submit">Search</button>
                 </form>
             </div>

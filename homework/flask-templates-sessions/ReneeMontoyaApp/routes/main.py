@@ -1,6 +1,7 @@
 from app import app, db
 from flask import render_template, request, redirect, url_for, session
 from models import Plant, Employee, Salon
+from utils.helpers import encrypt_string
 
 
 @app.route('/')
@@ -18,13 +19,16 @@ def login():
 
 @app.route('/auth', methods=['POST'])
 def auth():
+    error = None
     form = request.form
     user = Employee.query.filter(Employee.email == form['login']).filter(
-        Employee.password == (form['password'])).first()
+        Employee.password == encrypt_string(form['password'])).first()
     if user is not None:
         session['user'] = user.serialize
-    # return redirect("http://localhost:8082/")
-    return redirect(url_for('main'))  # This is redirect doesn't work ==> FIXED in nginx.conf
+        return redirect(url_for('main'))  # This is redirect doesn't work ==> FIXED in nginx.conf
+    else:
+        error = "Invalid email or password"
+        return render_template('login.html', session=session, error=error)
 
 
 @app.route('/logout')
@@ -49,13 +53,20 @@ def plant(id):
 
 @app.route('/plant/<int:id>/edit')
 def plant_edit_page(id):
+    error = None
     plant = Plant.query.get(id)
+    if session.get('user') is None:
+        error = "Only authorized users can edit"
+        return render_template('plant.html', plant=plant, session=session, error=error)
+
     employees = Employee.query.all()
     return render_template('forms/edit-plant.html', plant=plant, employees=employees, session=session)
 
 
 @app.route('/plant/<int:id>/update', methods=['POST'])
 def plant_update(id):
+    if session.get('user') is None:
+        return redirect(url_for('plant', id=id))
     plant = Plant.query.get(id)
     form_data = request.form
     plant.name = form_data.get('name')
@@ -79,7 +90,11 @@ def employee(id):
 
 @app.route('/employee/<int:id>/edit')
 def employee_edit_page(id):
+    error = None
     employee = Employee.query.get(id)
+    if session.get('user') is None:
+        error = "Only authorized users can edit"
+        return render_template('employee.html', employee=employee, error=error)
     plants = Plant.query.all()
     salons = Salon.query.all()
     return render_template('forms/edit-employee.html', employee=employee, plants=plants, salons=salons, session=session)
@@ -87,6 +102,8 @@ def employee_edit_page(id):
 
 @app.route('/employee/<int:id>/update', methods=['POST'])
 def employee_update(id):
+    if session.get('user') is None:
+        return redirect(url_for('employee', id=id))
     employee = Employee.query.get(id)
     form_data = request.form
     employee.name = form_data.get('name')
@@ -117,13 +134,19 @@ def salon(id):
 
 @app.route('/salon/<int:id>/edit')
 def salon_edit_page(id):
+    error = None
     salon = Salon.query.get(id)
+    if session.get('user') is None:
+        error = "Only authorized users can edit"
+        return render_template('salon.html', salon=salon, error=error)
     employees = Employee.query.all()
     return render_template('forms/edit-salon.html', salon=salon, employees=employees, session=session)
 
 
 @app.route('/salon/<int:id>/update', methods=['POST'])
 def salon_update(id):
+    if session.get('user') is None:
+        return redirect(url_for('salon', id=id))
     salon = Salon.query.get(id)
     form_data = request.form
     salon.name = form_data.get('name')
