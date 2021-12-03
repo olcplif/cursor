@@ -2,9 +2,16 @@ from django.shortcuts import render
 from django.utils import timezone
 from django.shortcuts import render, get_object_or_404
 from django.shortcuts import redirect
+import random
+from django.http import HttpResponse
 
 from .models import Post
 from .forms import PostForm
+
+
+def random_color(request):
+    color = "#" + ''.join([random.choice('ABCDEF0123456789') for i in range(6)])
+    return render(request, 'blog/random-color.html', {'random_color': color})
 
 
 def post_list(request):

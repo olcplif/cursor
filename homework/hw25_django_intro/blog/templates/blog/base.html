@@ -18,6 +18,9 @@
     <a href="{% url 'post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
     {% endif %} <h1><a href="/">Django Intro</a></h1>
 </div>
+
+<div class="random-color"><a href="{% url 'random_color' %}">Random color {{ random_color }}</a></div>
+
 <div class="content container">
     <div class="row">
         <div class="col-md-8">
