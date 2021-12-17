@@ -1,0 +1,30 @@
+version: '3.7'
+
+services:
+  restaurant-postgres:
+    build:
+      context: .
+      dockerfile: ./docker/containers/postgres.Dockerfile
+    container_name: restaurant_postgres_db
+    restart: always
+    env_file:
+      - ./docker/envs/.env-local
+    ports:
+      - "5432:5432"
+    volumes:
+      - .data/postgres:/var/lib/postgresql/data/
+  restaurant-web:
+    build:
+      context: .
+      dockerfile: docker/containers/api.Dockerfile
+    container_name: restaurant_api
+    volumes:
+      - .:/restaurant
+    command: restaurant/docker/scripts/api.entrypoint.dev.sh
+    env_file:
+      - ./docker/envs/.env-local
+    ports:
+      - "8000:8000"  #
+      - "8080:8080"  # port for pycharm server
+    depends_on:
+      - restaurant-postgres
