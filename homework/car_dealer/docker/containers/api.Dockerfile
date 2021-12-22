@@ -4,6 +4,9 @@ RUN apt-get update && apt-get install -y gettext
 
 ADD . /car_dealer
 
+ENV PYTHONPATH "${PYTHONPATH}:/car_dealer"
+ENV PYTHONUNBUFFERED 1
+
 RUN chmod +x /car_dealer/docker/scripts/api.entrypoint.dev.sh && \
     chmod +x /car_dealer/docker/scripts/wait-for-it.sh
 
