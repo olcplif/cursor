@@ -39,6 +39,9 @@ class City(models.Model):
         related_name='countries'
     )
 
+    def __str__(self):
+        return self.name
+
 
 class Country(models.Model):
     country_id = models.AutoField(primary_key=True)
@@ -52,3 +55,6 @@ class Country(models.Model):
         db_index=True,
         verbose_name="Country code"
     )
+
+    def __str__(self):
+        return self.name

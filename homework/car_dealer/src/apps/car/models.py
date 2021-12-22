@@ -143,6 +143,13 @@ class Car(SoftDeleteAuditModel):
         verbose_name="Engine power"
     )
 
+    def __str__(self):
+        return self.slug
+
+    class Meta:
+        verbose_name = "Car"
+        verbose_name_plural = "Cars"
+
 
 class Color(models.Model):
     color_id = models.AutoField(primary_key=True)
@@ -151,6 +158,13 @@ class Color(models.Model):
         db_index=True,
         verbose_name="Color name"
     )
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'Color'
+        verbose_name_plural = 'Colors'
 
 
 class Model(models.Model):
@@ -164,8 +178,16 @@ class Model(models.Model):
     name = models.CharField(
         max_length=15,
         db_index=True,
+        unique=True,
         verbose_name="Model name"
     )
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'Model'
+        verbose_name_plural = 'Models'
 
 
 class Brand(models.Model):
@@ -173,8 +195,16 @@ class Brand(models.Model):
     name = models.CharField(
         max_length=15,
         db_index=True,
+        unique=True,
         verbose_name="Brand name"
     )
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'Brand'
+        verbose_name_plural = 'Brands'
 
 
 class Property(models.Model):
@@ -190,6 +220,9 @@ class Property(models.Model):
         verbose_name="Property name"
     )
 
+    def __str__(self):
+        return self.name
+
 
 class CarProperty(models.Model):
     car_property_id = models.AutoField(primary_key=True)
@@ -199,3 +232,30 @@ class CarProperty(models.Model):
         null=True,
         related_name='cars'
     )
+    car_id = models.ForeignKey(
+        to='Car',
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name='car_properties'
+    )
+
+
+class Picture(models.Model):
+    picture_id = models.AutoField(primary_key=True)
+    car_id = models.ForeignKey(
+        to='Car',
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name='car_picture'
+    )
+    position = models.IntegerField()
+    metadata = models.TextField(null=True, blank=True)
+    url = models.CharField(
+        max_length=50,
+        db_index=True,
+        verbose_name="URL"
+    )
+
+    class Meta:
+        verbose_name = 'Picture'
+        verbose_name_plural = 'Pictures'

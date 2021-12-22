@@ -43,9 +43,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
-    #'debug_toolbar',
     'src.apps.dealer',
     'src.apps.car',
+    'src.apps.order',
+    'src.apps.newsletter',
 ]
 
 MIDDLEWARE = [
