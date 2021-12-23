@@ -43,9 +43,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
-    'src.apps.dealer',
-    'src.apps.car',
-    'src.apps.order',
+    'src.apps.users',
+    'src.apps.cars',
+    'src.apps.orders',
+    'src.apps.location',
     'src.apps.newsletter',
 ]
 
@@ -138,7 +139,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-AUTH_USER_MODEL = 'dealer.Dealer'
+AUTH_USER_MODEL = 'users.CarDealerUsers'
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/

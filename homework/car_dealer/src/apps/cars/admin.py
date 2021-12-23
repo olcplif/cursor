@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from src.apps.car.models import *
+from src.apps.cars.models import *
 
 admin.site.register(Car)
 admin.site.register(Property)

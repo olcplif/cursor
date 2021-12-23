@@ -1,9 +1,16 @@
 from django.db import models
 
+from src.apps.cars.models import Car
 
-# Create your models here.
 
 class Order(models.Model):
+    order_id = models.AutoField(primary_key=True)
+    car_id = models.ForeignKey(
+        to='cars.Car',
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name='cars'
+    )
 
     STATUS_FORMED = 'formed'
     STATUS_WAITING_PAYMENT = 'waiting for payment'
@@ -19,14 +26,6 @@ class Order(models.Model):
         (STATUS_DELIVERED, 'delivered'),
         (STATUS_COMPLETED, 'completed'),
         (STATUS_RETURN, 'return'),
-    )
-
-    order_id = models.AutoField(primary_key=True)
-    car_id = models.ForeignKey(
-        to='car.Car',
-        on_delete=models.SET_NULL,
-        null=True,
-        related_name='cars'
     )
     status = models.CharField(
         max_length=25,

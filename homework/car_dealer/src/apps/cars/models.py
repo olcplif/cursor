@@ -1,21 +1,33 @@
 from django.db import models
 
-# Create your models here.
+from src.apps.users.models import CarDealerUsers
 from src.common.models import SoftDeleteAuditModel
-from src.apps.dealer.models import Dealer
 
 
 class Car(SoftDeleteAuditModel):
-    FUEL_PETROL = 'petrol'
-    FUEL_DIESEL = 'diesel'
-    FUEL_ELECTRIC = 'electric'
-    FUEL_HYBRID = 'hybrid'
-
-    FUEL_CHOICES = (
-        (FUEL_PETROL, 'petrol'),
-        (FUEL_DIESEL, 'diesel'),
-        (FUEL_ELECTRIC, 'electric'),
-        (FUEL_HYBRID, 'hybrid'),
+    car_id = models.AutoField(primary_key=True)
+    color_id = models.ForeignKey(
+        to='Color',
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name='cars'
+    )
+    dealer_id = models.ForeignKey(
+        to='users.CarDealerUsers',
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name='cars'
+    )
+    model_id = models.ForeignKey(
+        to='Model',
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name='cars'
+    )
+    engine_type = models.CharField(
+        max_length=64,
+        db_index=True,
+        verbose_name="Engine type"
     )
 
     POLLUTANT_CLASS_A_PLUS = 'A+'
@@ -35,52 +47,6 @@ class Car(SoftDeleteAuditModel):
         (POLLUTANT_CLASS_F, 'F'),
         (POLLUTANT_CLASS_G, 'G'),
     )
-
-    STATUS_IN_STOCK = 'in stock'
-    STATUS_EXPECTED = 'expected'
-    STATUS_ORDER = 'order'
-    STATUS_DISCONTINUED = 'discontinued'
-
-    STATUS_CHOICES = (
-        (STATUS_IN_STOCK, 'in stock'),
-        (STATUS_EXPECTED, 'expected'),
-        (STATUS_ORDER, 'order'),
-        (STATUS_DISCONTINUED, 'discontinued'),
-    )
-
-    GEAR_MECHANICAL = 'mechanical'
-    GEAR_AUTOMATIC = 'automatic'
-
-    GEAR_CHOICES = (
-        (GEAR_MECHANICAL, 'mechanical'),
-        (GEAR_AUTOMATIC, 'automatic'),
-    )
-
-    car_id = models.AutoField(primary_key=True)
-    color_id = models.ForeignKey(
-        to='Color',
-        on_delete=models.SET_NULL,
-        null=True,
-        related_name='cars'
-    )
-    dealer_id = models.ForeignKey(
-        to='dealer.Dealer',
-        on_delete=models.SET_NULL,
-        null=True,
-        related_name='cars'
-    )
-    model_id = models.ForeignKey(
-        to='Model',
-        on_delete=models.SET_NULL,
-        null=True,
-        related_name='cars'
-    )
-    engine_type = models.CharField(
-        max_length=64,
-        db_index=True,
-        verbose_name="Engine type"
-    )
-
     pollutant_class = models.CharField(
         max_length=25,
         choices=POLLUTANT_CLASS_CHOICES,
@@ -92,12 +58,36 @@ class Car(SoftDeleteAuditModel):
         db_index=True,
         verbose_name="Price"
     )
+
+    FUEL_PETROL = 'petrol'
+    FUEL_DIESEL = 'diesel'
+    FUEL_ELECTRIC = 'electric'
+    FUEL_HYBRID = 'hybrid'
+
+    FUEL_CHOICES = (
+        (FUEL_PETROL, 'petrol'),
+        (FUEL_DIESEL, 'diesel'),
+        (FUEL_ELECTRIC, 'electric'),
+        (FUEL_HYBRID, 'hybrid'),
+    )
     fuel_type = models.CharField(
         max_length=25,
         choices=FUEL_CHOICES,
         default=FUEL_PETROL,
         blank=True,
         verbose_name="Fuel type"
+    )
+
+    STATUS_IN_STOCK = 'in stock'
+    STATUS_EXPECTED = 'expected'
+    STATUS_ORDER = 'order'
+    STATUS_DISCONTINUED = 'discontinued'
+
+    STATUS_CHOICES = (
+        (STATUS_IN_STOCK, 'in stock'),
+        (STATUS_EXPECTED, 'expected'),
+        (STATUS_ORDER, 'order'),
+        (STATUS_DISCONTINUED, 'discontinued'),
     )
     status = models.CharField(
         max_length=25,
@@ -115,6 +105,14 @@ class Car(SoftDeleteAuditModel):
         max_length=15,
         db_index=True,
         verbose_name="Capacity"
+    )
+
+    GEAR_MECHANICAL = 'mechanical'
+    GEAR_AUTOMATIC = 'automatic'
+
+    GEAR_CHOICES = (
+        (GEAR_MECHANICAL, 'mechanical'),
+        (GEAR_AUTOMATIC, 'automatic'),
     )
     gear_case = models.CharField(
         max_length=25,
@@ -160,7 +158,7 @@ class Color(models.Model):
     )
 
     def __str__(self):
-        return self.name
+        return self.color_id
 
     class Meta:
         verbose_name = 'Color'
@@ -168,7 +166,7 @@ class Color(models.Model):
 
 
 class Model(models.Model):
-    color_id = models.AutoField(primary_key=True)
+    model_id = models.AutoField(primary_key=True)
     brand_id = models.ForeignKey(
         to='Brand',
         on_delete=models.SET_NULL,
@@ -183,7 +181,7 @@ class Model(models.Model):
     )
 
     def __str__(self):
-        return self.name
+        return self.model_id
 
     class Meta:
         verbose_name = 'Model'
@@ -200,7 +198,7 @@ class Brand(models.Model):
     )
 
     def __str__(self):
-        return self.name
+        return self.brand_id
 
     class Meta:
         verbose_name = 'Brand'
@@ -221,7 +219,7 @@ class Property(models.Model):
     )
 
     def __str__(self):
-        return self.name
+        return self.property_id
 
 
 class CarProperty(models.Model):
@@ -255,6 +253,7 @@ class Picture(models.Model):
         db_index=True,
         verbose_name="URL"
     )
+    upload = models.FileField(upload_to='static/images/cars/%Y/%m/%d/')
 
     class Meta:
         verbose_name = 'Picture'

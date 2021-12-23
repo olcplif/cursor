@@ -12,6 +12,9 @@ app:
 start_compose:
 	@docker-compose -f docker-compose-dev.yml up
 
+rebuild_compose:
+	@docker-compose -f docker-compose-dev.yml up --build
+
 test_env:
 	@cat ./docker/envs/env_example > ./docker/envs/.env-local
 
