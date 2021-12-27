@@ -1,5 +1,5 @@
 from app import app, db
-from flask import render_template, request, redirect, url_for
+from flask import render_template, request, redirect, url_for, session
 from models import Plant, Employee, Salon
 
 
@@ -8,28 +8,50 @@ def main():
     plants = Plant.query.all()
     employees = Employee.query.all()
     salons = Salon.query.all()
+    return render_template('index.html', plants=plants, employees=employees, salons=salons, session=session)
 
-    return render_template('index.html', plants=plants, employees=employees, salons=salons)
+
+@app.route('/login')
+def login():
+    return render_template('login.html', session=session)
+
+
+@app.route('/auth', methods=['POST'])
+def auth():
+    form = request.form
+    user = Employee.query.filter(Employee.email == form['login']).filter(
+        Employee.password == (form['password'])).first()
+    if user is not None:
+        session['user'] = user.serialize
+    # return redirect("http://localhost:8082/")
+    return redirect(url_for('main'))  # This is redirect doesn't work ==> FIXED in nginx.conf
+
+
+@app.route('/logout')
+def logout():
+    session.pop('user')
+    # return redirect("http://localhost:8082/")
+    return redirect(url_for('main'))  # This is redirect doesn't work ==> FIXED in nginx.conf
 
 
 @app.route('/plants')
 def plants():
     plants = Plant.query.all()
     employees = Employee.query.all()
-    return render_template('plants.html', plants=plants, employees=employees)
+    return render_template('plants.html', plants=plants, employees=employees, session=session)
 
 
 @app.route('/plant/<int:id>')
 def plant(id):
     plant = Plant.query.get(id)
-    return render_template('plant.html', plant=plant)
+    return render_template('plant.html', plant=plant, session=session)
 
 
 @app.route('/plant/<int:id>/edit')
 def plant_edit_page(id):
     plant = Plant.query.get(id)
     employees = Employee.query.all()
-    return render_template('forms/edit-plant.html', plant=plant, employees=employees)
+    return render_template('forms/edit-plant.html', plant=plant, employees=employees, session=session)
 
 
 @app.route('/plant/<int:id>/update', methods=['POST'])
@@ -46,13 +68,13 @@ def plant_update(id):
 
 @app.route('/employees')
 def employees():
-    return render_template('employees.html')
+    return render_template('employees.html', session=session)
 
 
 @app.route('/employee/<int:id>')
 def employee(id):
     employee = Employee.query.get(id)
-    return render_template('employee.html', employee=employee)
+    return render_template('employee.html', employee=employee, session=session)
 
 
 @app.route('/employee/<int:id>/edit')
@@ -60,7 +82,7 @@ def employee_edit_page(id):
     employee = Employee.query.get(id)
     plants = Plant.query.all()
     salons = Salon.query.all()
-    return render_template('forms/edit-employee.html', employee=employee, plants=plants, salons=salons)
+    return render_template('forms/edit-employee.html', employee=employee, plants=plants, salons=salons, session=session)
 
 
 @app.route('/employee/<int:id>/update', methods=['POST'])
@@ -79,25 +101,25 @@ def employee_update(id):
 @app.route('/salons/<int:id>')
 def salon_(id):
     salon = Salon.query.get(id)
-    return render_template('salons.html', salon=salon)
+    return render_template('salons.html', salon=salon, session=session)
 
 
 @app.route('/salons')
 def salons():
-    return render_template('salons.html')
+    return render_template('salons.html', session=session)
 
 
 @app.route('/salon/<int:id>')
 def salon(id):
     salon = Salon.query.get(id)
-    return render_template('salon.html', salon=salon)
+    return render_template('salon.html', salon=salon, session=session)
 
 
 @app.route('/salon/<int:id>/edit')
 def salon_edit_page(id):
     salon = Salon.query.get(id)
     employees = Employee.query.all()
-    return render_template('forms/edit-salon.html', salon=salon, employees=employees)
+    return render_template('forms/edit-salon.html', salon=salon, employees=employees, session=session)
 
 
 @app.route('/salon/<int:id>/update', methods=['POST'])

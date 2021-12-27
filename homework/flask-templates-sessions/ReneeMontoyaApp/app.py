@@ -2,10 +2,12 @@ from flask import Flask
 from flask_restful import Api
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from config import Config
 
 db = SQLAlchemy()
 app = Flask(__name__)
 app.config.from_object("config.Config")
+app.secret_key = Config.SECRET_KEY
 api = Api(app)
 migrate = Migrate(app, db)
 

@@ -50,6 +50,12 @@ class Employee(db.Model):
         nullable=False,
         unique=True
     )
+
+    password = db.Column(
+        db.String(255),
+        nullable=False
+    )
+
     name = db.Column(
         db.String(255),
         nullable=False,
