@@ -19,9 +19,31 @@
                     <div class="content">{{ salon.director.name }} | {{ salon.director.email }}</div>
                 </div>
 
-                <div class="col-sm-12 text-center">
-                    <a href="{{ url_for('salon_edit_page', id=salon.id) }}" class="btn btn-info">Edit</a>
+                {% if session.get('user') %}
+                    <div class="col-sm-12 text-center">
+                        <a href="{{ url_for('salon_edit_page', id=salon.id) }}" class="btn btn-info">Edit</a>
+                    </div>
+                {% endif %}
+
+                {#    Render flash message#}
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        <ul class=flashes>
+                            {% for message in messages %}
+                                <li>{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                {% endwith %}
+                {#  END  Render flash message#}
+                <div>
+                    {#   Render message with error#}
+                    {% if error %}
+                        <p class=error><strong>An error occurred:</strong> {{ error }}</p>
+                    {% endif %}
+                    {#   END  Render message with error#}
                 </div>
+
             </div>
         </div>
     </div>

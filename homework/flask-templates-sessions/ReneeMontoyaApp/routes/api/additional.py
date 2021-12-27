@@ -1,7 +1,9 @@
-from app import db, app, api
 from flask_restful import Resource
 from flask import request
-from models import MenuItem
+from sqlalchemy import or_
+
+from app import db, app, api
+from models import MenuItem, Employee, Plant, Salon
 from utils.helpers import convert_list
 
 
@@ -13,8 +15,8 @@ class MenuItemResource(Resource):
     def post(self):
         request_data = request.json
         menu_item = MenuItem(
-            name = request_data['name'],
-            link = request_data['link'],
+            name=request_data['name'],
+            link=request_data['link'],
             is_active=request_data['is_active']
         )
         db.session.add(menu_item)
@@ -33,5 +35,19 @@ class MenuItemSingleResource(Resource):
         return menu_item.serialize
 
 
+class SearchResource(Resource):
+    def get(self):
+        q = request.args.get('q')
+        # employees = Employee.query.filter(Employee.name.like('%' + q + '%'), Employee.email.like('%' + q + '%')).all()
+        # plants = Plant.query.filter(Plant.name.like('%' + q + '%'), Plant.location.like('%' + q + '%')).all()
+        # salons = Salon.query.filter(Salon.name.like('%' + q + '%'), Salon.city.like('%' + q + '%'),
+        #                             Salon.address.like('%' + q + '%')).all()
+        employees = Employee.query.filter(or_(Employee.name.ilike(f'%{q}%'), Employee.email.ilike(f'%{q}%'))).all()
+        plants = Plant.query.filter(or_(Plant.name.ilike(f'%{q}%'), Plant.location.ilike(f'%{q}%'))).all()
+        salons = Salon.query.filter(or_(Salon.name.ilike(f'%{q}%'), Salon.city.ilike(f'%{q}%'), Salon.address.ilike(f'%{q}%'))).all()
+        return convert_list(employees + plants + salons)
+
+
 api.add_resource(MenuItemResource, '/api/v1/menu-items')
 api.add_resource(MenuItemSingleResource, '/api/v1/menu-items/<int:id>')
+api.add_resource(SearchResource, '/api/v1/search')
