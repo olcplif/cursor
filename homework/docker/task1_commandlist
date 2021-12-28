@@ -1,0 +1,6 @@
+1. Add service app-flask into fail docker-compose.yml
+2. Add commands into Dockerfile
+3. sudo docker-compose up
+4. http://172.19.0.2:5000/
+5. http://172.19.0.2:5000/hello
+6. sudo docker-compose stop
