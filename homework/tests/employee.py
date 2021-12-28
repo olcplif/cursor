@@ -23,8 +23,16 @@ class Employee:
         self.pay = int(self.pay * self.raise_amt)
 
     def monthly_schedule(self, month):
-        response = requests.get("http://company.com/{self.last}/{month}")
+        response = requests.get(f"http://company.com/{self.last}/{month}")
         if response.ok:
             return response.text
         else:
             return 'Bad Response!'
+
+
+# if __name__ == "__main__":
+#     user_1 = Employee("Alex", "Lys", 200)
+#     print(user_1.email)
+#     print(user_1.fullname)
+#     print(user_1.apply_raise())
+#     print(user_1.monthly_schedule(9))
