@@ -29,15 +29,6 @@ class CarColorFactory(factory.django.DjangoModelFactory):
         model = Color
 
 
-class CarPictureFactory(factory.django.DjangoModelFactory):
-    url = fuzzy.FuzzyText(length=12, chars=string.ascii_letters, prefix='https://img.com/')
-    position = '1'
-    metadata = fuzzy.FuzzyText(length=12, chars=string.ascii_letters, prefix='')
-
-    class Meta:
-        model = Picture
-
-
 class CarPropertyFactory(factory.django.DjangoModelFactory):
     category = fuzzy.FuzzyText(length=12, chars=string.ascii_letters, prefix='')
     name = fuzzy.FuzzyText(length=12, chars=string.ascii_letters, prefix='')

@@ -5,20 +5,20 @@ from src.common.models import SoftDeleteAuditModel
 
 
 class Car(SoftDeleteAuditModel):
-    car_id = models.AutoField(primary_key=True)
-    color_id = models.ForeignKey(
+    car = models.AutoField(primary_key=True)
+    color = models.ForeignKey(
         to='Color',
         on_delete=models.SET_NULL,
         null=True,
         related_name='cars'
     )
-    dealer_id = models.ForeignKey(
+    dealer = models.ForeignKey(
         to='users.CarDealerUsers',
         on_delete=models.SET_NULL,
         null=True,
         related_name='cars'
     )
-    model_id = models.ForeignKey(
+    model = models.ForeignKey(
         to='Model',
         on_delete=models.SET_NULL,
         null=True,
@@ -150,7 +150,7 @@ class Car(SoftDeleteAuditModel):
 
 
 class Color(models.Model):
-    color_id = models.AutoField(primary_key=True)
+    color = models.AutoField(primary_key=True)
     name = models.CharField(
         max_length=15,
         db_index=True,
@@ -158,7 +158,7 @@ class Color(models.Model):
     )
 
     def __str__(self):
-        return self.color_id
+        return self.name
 
     class Meta:
         verbose_name = 'Color'
@@ -166,12 +166,12 @@ class Color(models.Model):
 
 
 class Model(models.Model):
-    model_id = models.AutoField(primary_key=True)
-    brand_id = models.ForeignKey(
+    model = models.AutoField(primary_key=True)
+    brand = models.ForeignKey(
         to='Brand',
         on_delete=models.SET_NULL,
         null=True,
-        related_name='cars'
+        related_name='models'
     )
     name = models.CharField(
         max_length=15,
@@ -181,7 +181,7 @@ class Model(models.Model):
     )
 
     def __str__(self):
-        return self.model_id
+        return self.name
 
     class Meta:
         verbose_name = 'Model'
@@ -189,7 +189,7 @@ class Model(models.Model):
 
 
 class Brand(models.Model):
-    brand_id = models.AutoField(primary_key=True)
+    brand = models.AutoField(primary_key=True)
     name = models.CharField(
         max_length=15,
         db_index=True,
@@ -198,7 +198,7 @@ class Brand(models.Model):
     )
 
     def __str__(self):
-        return self.brand_id
+        return self.name
 
     class Meta:
         verbose_name = 'Brand'
@@ -206,7 +206,7 @@ class Brand(models.Model):
 
 
 class Property(models.Model):
-    property_id = models.AutoField(primary_key=True)
+    property = models.AutoField(primary_key=True)
     category = models.CharField(
         max_length=15,
         db_index=True,
@@ -219,42 +219,21 @@ class Property(models.Model):
     )
 
     def __str__(self):
-        return self.property_id
+        return self.name
 
 
 class CarProperty(models.Model):
-    car_property_id = models.AutoField(primary_key=True)
-    property_id = models.ForeignKey(
+    car_property = models.AutoField(primary_key=True)
+    property = models.ManyToManyField(
         to='Property',
-        on_delete=models.SET_NULL,
         null=True,
         related_name='cars'
     )
-    car_id = models.ForeignKey(
+    car = models.ManyToManyField(
         to='Car',
-        on_delete=models.SET_NULL,
         null=True,
         related_name='car_properties'
     )
 
-
-class Picture(models.Model):
-    picture_id = models.AutoField(primary_key=True)
-    car_id = models.ForeignKey(
-        to='Car',
-        on_delete=models.SET_NULL,
-        null=True,
-        related_name='car_picture'
-    )
-    position = models.IntegerField()
-    metadata = models.TextField(null=True, blank=True)
-    url = models.CharField(
-        max_length=50,
-        db_index=True,
-        verbose_name="URL"
-    )
-    upload = models.FileField(upload_to='static/images/cars/%Y/%m/%d/')
-
-    class Meta:
-        verbose_name = 'Picture'
-        verbose_name_plural = 'Pictures'
+    def __str__(self):
+        return f"Car's properties"

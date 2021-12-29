@@ -1,7 +1,8 @@
 import factory
 from factory import fuzzy
 
-from apps.dealers.models import Dealer, City, Address, Country
+# from src.apps.users.models import CarDealerUsers, City
+from src.apps.location.models import City, Country
 
 
 class CountryFactory(factory.DjangoModelFactory):
@@ -17,20 +18,3 @@ class CityFactory(factory.DjangoModelFactory):
 
     class Meta:
         model = City
-
-
-class AddressFactory(factory.DjangoModelFactory):
-    address1 = fuzzy.FuzzyText()
-    address2 = fuzzy.FuzzyText()
-    zip_code = fuzzy.FuzzyInteger(low=0, high=9999)
-    city = factory.SubFactory(CityFactory)
-
-    class Meta:
-        model = Address
-
-
-class DealerFactory(factory.DjangoModelFactory):
-    address = factory.SubFactory(AddressFactory)
-
-    class Meta:
-        model = Dealer

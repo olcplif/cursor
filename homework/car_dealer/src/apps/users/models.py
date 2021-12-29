@@ -16,11 +16,14 @@ class CarDealerUsers(AbstractUser):
     is_dealer = models.BooleanField(
         default=False
     )
+    is_client = models.BooleanField(
+        default=False
+    )
     city_id = models.ForeignKey(
         to='location.City',
         on_delete=models.SET_NULL,
         null=True,
-        related_name='cities'
+        related_name='users'
     )
 
     def __str__(self):

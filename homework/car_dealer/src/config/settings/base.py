@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'src.apps.orders',
     'src.apps.location',
     'src.apps.newsletter',
+    'src.apps.pictures',
 ]
 
 MIDDLEWARE = [

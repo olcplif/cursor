@@ -1,8 +1,8 @@
 import factory
 
-from apps.photos.models import Photo
+from src.apps.photos.models import Picture
 
 
 class PhotoFactory(factory.DjangoModelFactory):
     class Meta:
-        model = Photo
+        model = Picture

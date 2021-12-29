@@ -9,7 +9,7 @@ class Order(models.Model):
         to='cars.Car',
         on_delete=models.SET_NULL,
         null=True,
-        related_name='cars'
+        related_name='orders'
     )
 
     STATUS_FORMED = 'formed'
@@ -60,7 +60,7 @@ class Order(models.Model):
     )
 
     def __str__(self):
-        return self.order_id
+        return f'Order # {self.order_id}'
 
     class Meta:
         verbose_name = 'Order'

@@ -3,7 +3,6 @@ from django.db import models
 
 # Create your models here.
 class City(models.Model):
-    city_id = models.AutoField(primary_key=True)
     name = models.CharField(
         max_length=32,
         db_index=True,
@@ -13,7 +12,7 @@ class City(models.Model):
         to='Country',
         on_delete=models.SET_NULL,
         null=True,
-        related_name='countries'
+        related_name='cities'
     )
 
     def __str__(self):
@@ -21,7 +20,6 @@ class City(models.Model):
 
 
 class Country(models.Model):
-    country_id = models.AutoField(primary_key=True)
     name = models.CharField(
         max_length=32,
         db_index=True,
