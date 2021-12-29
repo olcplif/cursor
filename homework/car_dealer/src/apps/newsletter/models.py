@@ -11,3 +11,9 @@ class NewsLetter(models.Model):
 
     def __str__(self):
         return self.email
+
+    class Meta:
+        # db_table = 'newsletter'
+        constraints = [
+            models.UniqueConstraint(fields=['email'], name='unique email')
+        ]

@@ -3,7 +3,6 @@ from django.views.generic import FormView
 from django.http import HttpResponse
 
 from src.apps.newsletter.forms import NewsLetterModelForm
-from src.apps.newsletter.models import NewsLetter
 
 
 def success_view(request):
@@ -11,8 +10,7 @@ def success_view(request):
 
 
 class NewsLetterView(FormView):
-    newsletter = NewsLetter()
-    # fields = ['email']
+    fields = ['email', 'is_active']
     template_name = 'newsletter/add_subscribe.html'
     form_class = NewsLetterModelForm
     success_url = '/subscribe/success'
@@ -22,4 +20,5 @@ class NewsLetterView(FormView):
         return redirect(self.get_success_url())
 
     def form_invalid(self, form):
-        return HttpResponse("Your email isn't valid")
+        return HttpResponse("You are already subscribed!")
+        # return HttpResponse("Your email isn't valid")
