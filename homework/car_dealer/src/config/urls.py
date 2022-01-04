@@ -22,6 +22,9 @@ from rest_framework.authtoken.views import obtain_auth_token
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('apps.newsletter.urls')),
+    path('', include('apps.users.urls')),
+    # path('api-token-auth/', CustomAuthToken.as_view()),
+    # path('login/', CustomAuthToken.as_view()),
 ]
 
 if settings.DEBUG:
