@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
+    'knox',
+    'src.apps.accounts',
     'src.apps.users',
     'src.apps.cars',
     'src.apps.orders',
@@ -173,8 +175,9 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 50,
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
-        'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
+        # 'rest_framework.authentication.BasicAuthentication',
+        # 'rest_framework.authentication.SessionAuthentication',
+        'knox.auth.TokenAuthentication',
     ],
 }
 

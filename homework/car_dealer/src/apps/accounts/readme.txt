@@ -1,0 +1,1 @@
+https://github.com/studygyaan/django-rest-framework-tutorial

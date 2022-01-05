@@ -17,16 +17,20 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
-from rest_framework.authtoken.views import obtain_auth_token
+from src.apps.auth.views import AuthToken
 
-urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', include('apps.newsletter.urls')),
-    path('', include('apps.users.urls')),
-    # path('api-token-auth/', CustomAuthToken.as_view()),
-    # path('login/', CustomAuthToken.as_view()),
+urlpatterns_v1 = [
+    # path('api-token-auth/', AuthToken.as_view()),
 ]
 
+urlpatterns = [
+    path('api/v1/', include(urlpatterns_v1)),
+    path('admin/', admin.site.urls),
+    path('', include('apps.auth.urls')),
+    path('', include('apps.accounts.urls')),
+    path('', include('apps.newsletter.urls')),
+    path('', include('apps.users.urls')),
+]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
