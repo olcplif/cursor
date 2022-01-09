@@ -8,7 +8,7 @@ from src.apps.cars.serializers.v1.car import CarSerializer
 
 class CarPropertySerializer(serializers.Serializer):
     property = PropertySerializer(many=True)
-    car = PropertySerializer(many=True)
+    car = CarSerializer(many=True)
 
     def create(self, validated_data: dict) -> Property:
         return Property.objects.create(**validated_data)

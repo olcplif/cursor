@@ -208,12 +208,12 @@ class Brand(models.Model):
 class Property(models.Model):
     property = models.AutoField(primary_key=True)
     category = models.CharField(
-        max_length=15,
+        max_length=30,
         db_index=True,
         verbose_name="Category name"
     )
     name = models.CharField(
-        max_length=15,
+        max_length=100,
         db_index=True,
         verbose_name="Property name"
     )

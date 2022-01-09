@@ -21,9 +21,11 @@ from src.apps.auth.views import AuthToken
 
 urlpatterns_v1 = [
     # path('api-token-auth/', AuthToken.as_view()),
+    path('', include('apps.cars.api_urls')),
 ]
 
 urlpatterns = [
+    path('api/', include('apps.accounts.urls')),
     path('api/v1/', include(urlpatterns_v1)),
     path('admin/', admin.site.urls),
     path('', include('apps.auth.urls')),

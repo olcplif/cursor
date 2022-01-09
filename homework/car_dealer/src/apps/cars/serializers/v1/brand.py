@@ -4,7 +4,7 @@ from src.apps.cars.models import Brand
 
 
 class BrandSerializer(serializers.Serializer):
-    name = serializers.CharField()
+    name = serializers.CharField(max_length=30)
 
     def create(self, validated_data: dict) -> Brand:
         return Brand.objects.create(**validated_data)

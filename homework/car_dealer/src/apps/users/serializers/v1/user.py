@@ -1,14 +1,14 @@
 from rest_framework import serializers
 
 from src.apps.users.models import CarDealerUsers
-from src.apps.location.serializers.v1.country import CitySerializer
+from src.apps.location.serializers.v1.city import CitySerializer
 
 
 class CarDealerUsersSerializer(serializers.ModelSerializer):
     title = serializers.CharField()
     is_dealer = serializers.BooleanField(default=False, required=False)
     is_client = serializers.BooleanField(default=False, required=False)
-    city_id = serializers.CitySerializer()
+    city_id = CitySerializer()
     full_name = serializers.SerializerMethodField(method_name='user_fullname')
 
     def user_fullname(self, instance: CarDealerUsers) -> str:

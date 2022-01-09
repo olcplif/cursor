@@ -3,11 +3,11 @@ from rest_framework import serializers
 from src.apps.cars.models import Car
 from src.apps.cars.serializers.v1.color import ColorSerializer
 from src.apps.cars.serializers.v1.model import ModelSerializer
-from src.apps.cars.serializers.v1.brand import BrandSerializer
-from src.apps.cars.serializers.v1.property import PropertySerializer
-from src.apps.cars.serializers.v1.car_property import CarPropertySerializer
+# from src.apps.cars.serializers.v1.brand import BrandSerializer
+# from src.apps.cars.serializers.v1.property import PropertySerializer
+# from src.apps.cars.serializers.v1.car_property import CarPropertySerializer
 from src.apps.users.models import CarDealerUsers
-from src.apps.users.serializers.v1.user import CarDealerUsersSerializer
+# from src.apps.users.serializers.v1.user import CarDealerUsersSerializer
 
 
 class CarSerializer(serializers.Serializer):
